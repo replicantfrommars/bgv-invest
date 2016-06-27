@@ -21,3 +21,35 @@ def register():
             return redirect(url_for('index'))
 
     return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if not User(username).verify_password(password):
+            flash('Invalid login.')
+        else:
+            session['username'] = username
+            flash('Logged in.')
+            return redirect(url_for('index'))
+
+    return render_template('login.html')
+
+@app.route('/add_post', methods=['POST'])
+def add_post():
+    title = request.form['title']
+    tags = request.form['tags']
+    text = request.form['text']
+
+    if not title:
+        flash('You must give your post a title.')
+    elif not tags:
+        flash('You must give your post at least one tag.')
+    elif not text:
+        flash('You must give your post a text body.')
+    else:
+        User(session['username']).add_post(title, tags, text)
+
+    return redirect(url_for('index'))
