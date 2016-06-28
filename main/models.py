@@ -8,8 +8,8 @@ if os.environ.get("N4J_HOST") and os.environ.get("N4J_USER") and os.environ.get(
     authenticate(os.environ.get("N4J_HOST"), os.environ.get("N4J_USER"), os.environ.get("N4J_PASS"))
 else:
     print "Credentials not declared"
-    
-graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
+
+graphenedb_url = os.environ.get("GRAPHENEDB_URL")
 graph = ServiceRoot(graphenedb_url).graph
 
 def timestamp():
