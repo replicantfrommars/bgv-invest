@@ -1,9 +1,11 @@
-from py2neo import Graph, Node, Relationship
+from py2neo import authenticate, Graph, Node, Relationship
 from passlib.hash import bcrypt
 from datetime import datetime
 import uuid
 
-graph = Graph()
+authenticate("localhost:7474", "neo4j", "PoIsNot8080")
+
+graph = Graph("http://localhost:7474/db/data/")
 
 def timestamp():
     epoch = datetime.utcfromtimestamp(0)
@@ -13,6 +15,16 @@ def timestamp():
 
 def date():
     return datetime.now().strftime('%Y-%m-%d')
+
+def get_todays_recent_posts():
+    query = """
+    MATCH (user:User)-[:PUBLISHED]->(post:Post)<-[:TAGGED]-(tag:Tag)
+    WHERE post.date = {today}
+    RETURN user.username AS username, post, COLLECT(tag.name) AS tags
+    ORDER BY post.timestamp DESC LIMIT 5
+    """
+
+    return graph.cypher.execute(query, today=date())
 
 class User:
     def __init__(self, username):
@@ -24,7 +36,7 @@ class User:
     
     def register(self, password):
         if not self.find():
-            user = Node("User", username=self.username, password.bcrypt.encrypt(password))
+            user = Node("User", username=self.username, password=bcrypt.encrypt(password))
             graph.create(user)
             return True
         else:
@@ -55,3 +67,13 @@ class User:
             tag = graph.merge_one("Tag", "name", t)
             rel = Relationship(tag, "TAGGED", post)
             graph.create(rel)
+    
+    def get_recent_posts(self):
+        query = """
+        MATCH (user:User)-[:PUBLISHED]->(post:Post)<-[:TAGGED]-(tag:Tag)
+        WHERE user.username = {username}
+        RETURN post, COLLECT(tag.name) AS tags
+        ORDER BY post.timestamp DESC LIMIT 5
+        """
+
+        return graph.cypher.execute(query, username=self.username)

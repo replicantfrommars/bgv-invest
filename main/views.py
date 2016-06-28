@@ -3,7 +3,7 @@ from flask import Flask, request, session, redirect, url_for, render_template, f
 
 app = Flask(__name__)
 
-@app_route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username'];
@@ -53,3 +53,16 @@ def add_post():
         User(session['username']).add_post(title, tags, text)
 
     return redirect(url_for('index'))
+
+@app.route('/like_post/<post_id>')
+def like_post():
+    username = session.get('username')
+
+    if not username:
+        flash('You must be logged in')
+        return redirect(url_for('login'))
+    
+    User(username).like_post(post_id)
+
+    flash('liked post.')
+    return redirect()
