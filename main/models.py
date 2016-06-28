@@ -1,11 +1,16 @@
-from py2neo import authenticate, Graph, Node, Relationship
+from py2neo import authenticate, ServiceRoot, Graph, Node, Relationship
 from passlib.hash import bcrypt
 from datetime import datetime
+import os
 import uuid
 
-authenticate("localhost:7474", "neo4j", "PoIsNot8080")
-
-graph = Graph("http://localhost:7474/db/data/")
+if os.environ.get("N4J_HOST") and os.environ.get("N4J_USER") and os.environ.get("N4J_PASS"):
+    authenticate(os.environ.get("N4J_HOST"), os.environ.get("N4J_USER"), os.environ.get("N4J_PASS"))
+else:
+    print "Credentials not declared"
+    
+graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
+graph = ServiceRoot(graphenedb_url).graph
 
 def timestamp():
     epoch = datetime.utcfromtimestamp(0)

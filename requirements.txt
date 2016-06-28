@@ -7,7 +7,7 @@ itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
 passlib==1.6.5
-py2neo==3
+py2neo==2.0.8
 pycparser==2.14
 requirements==0.1
 six==1.10.0
