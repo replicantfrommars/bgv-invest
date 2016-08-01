@@ -1,30 +1,38 @@
-from flask_login import (LoginManager, login_required, login_user, 
-                         current_user, logout_user, UserMixin)
-class User(UserMixin):
-    """
-    User Class for flask-Login
-    """
-    def __init__(self, userid, password):
-        self.id = userid
-        self.password = password
- 
-    def get_auth_token(self):
-        """
-        Encode a secure token for cookie
-        """
-        data = [str(self.id), self.password]
-        return login_serializer.dumps(data)
- 
-    @staticmethod
-    def get(userid):
-        """
-        Static method to search the database and see if userid exists.  If it 
-        does exist then return a User Object.  If not then return None as 
-        required by Flask-Login. 
-        """
-        #For this example the USERS database is a list consisting of 
-        #(user,hased_password) of users.
-        for user in USERS:
-            if user[0] == userid:
-                return User(user[0], user[1])
-        return None
+from __init__ import app
+from flask_sqlalchemy import SQLAlchemy 
+from flask_security import Security, SQLAlchemyUserDatastore, \
+    UserMixin, RoleMixin, login_required
+
+#db setup
+db = SQLAlchemy(app)
+
+#roles
+roles_users = db.Table('roles_users',
+        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
+
+# Create a user to test with
+@app.before_first_request
+def create_user():
+    db.create_all()
+    user_datastore.create_user(email='matt@nobien.net', password='password')
+    db.session.commit()
+
+
+# Setup Flask-Security
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
