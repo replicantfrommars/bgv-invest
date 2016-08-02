@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+<html>
+    <title>{% block title %} Dashboard {% endblock %}</title>
+    {% block content %}
+       <div id="container">
+           <a href="{{url_for('display')}}">Investor Map</a>
+        </div>
+    {% endblock %}
+</html>

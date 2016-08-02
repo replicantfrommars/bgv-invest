@@ -1,6 +1,5 @@
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import SQLAlchemyUserDatastore
 from __init__ import app
 from models import *
 
@@ -9,3 +8,8 @@ from models import *
 @login_required
 def home():
     return render_template('index.html')
+
+@app.route('/display')
+@login_required
+def display():
+    return render_template('display.html')

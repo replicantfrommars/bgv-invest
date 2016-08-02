@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
+
+body {
+    font-family: 'Roboto Slab', serif;
+    background-color: #f0f0f5;
+}
+
+div#hdr {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+    padding-left: 10pt;
+    padding-right: 10pt;
+    background-color: #336699;
+    border-bottom: 5pt #204060 solid;
+    color: #ffffff;
+    font-size: 40pt;
+}

@@ -32,7 +32,6 @@ def create_user():
     user_datastore.create_user(email='matt@nobien.net', password='password')
     db.session.commit()
 
-
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
