@@ -4,7 +4,6 @@ body {
     font-family: 'Roboto Slab', serif;
     background-color: #f0f0f5;
 }
-
 div#hdr {
     position:absolute;
     top: 0px;
@@ -23,10 +22,13 @@ div#content {
     position:absolute;
     top:60pt;
     left:0pt;
+    width:100%;
 }
 div#container {
-    margin:auto;
+    max-width: 300px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 5pt 10pt 5pt 10pt;
     border-radius: 10px;
     background-color: #c2c2d6;
-    padding:10pt;
 }
