@@ -29,7 +29,7 @@ class User(db.Model, UserMixin):
 @app.before_first_request
 def create_user():
     db.create_all()
-    user_datastore.create_user(email='matt@nobien.net', password='password')
+    user_datastore.create_user(email='Yevgen', password='password')
     db.session.commit()
 
 # Setup Flask-Security
