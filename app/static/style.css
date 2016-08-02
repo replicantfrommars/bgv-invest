@@ -14,7 +14,7 @@ div#hdr {
     padding-left: 10pt;
     padding-right: 10pt;
     background-color: #336699;
-    border-bottom: 5pt #204060 solid;
+    border-bottom: 3pt #204060 solid;
     color: #ffffff;
     font-size: 40pt;
 }
@@ -32,17 +32,27 @@ div#container {
     border-radius: 10px;
     background-color: #c2c2d6;
 }
- a#logout{
-     position: absolute;
-     right:5%;
-     bottom:0pt;
+ a{
      padding:5pt;
      color:#FFFFFF;
      background-color:#204060;
      text-decoration:none;
      font-size: 10pt; 
-     box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+     -webkit-box-shadow: 2px 2px 5px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 5px -1px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 5px -1px rgba(0,0,0,0.75);
  }
- a#logout :active{
-     background-color:#4CAF50;
+ a:hover{
+     background-color:#0099cc;
+     -webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+     -moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+     box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+ }
+ a#logout{
+     position: absolute;
+     right:5%;
+     bottom:0pt;
+ }
+ a#choice{
+     margin-left:0px;
  }
