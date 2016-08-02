@@ -13,3 +13,12 @@ def home():
 @login_required
 def display():
     return render_template('display.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    return "Logout"
+
+@app.route('/login')
+def login():
+    return render_template('security/login.html')

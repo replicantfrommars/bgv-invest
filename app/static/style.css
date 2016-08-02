@@ -6,7 +6,7 @@ body {
 }
 
 div#hdr {
-    position: absolute;
+    position:absolute;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -18,4 +18,15 @@ div#hdr {
     border-bottom: 5pt #204060 solid;
     color: #ffffff;
     font-size: 40pt;
+}
+div#content {
+    position:absolute;
+    top:60pt;
+    left:0pt;
+}
+div#container {
+    margin:auto;
+    border-radius: 10px;
+    background-color: #c2c2d6;
+    padding:10pt;
 }

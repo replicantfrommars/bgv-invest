@@ -1,15 +1,17 @@
-<html>
-    
+{% include "security/_messages.html" %}
+{% extends "layout.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}{
     <title> {% block title %}Login Page{% endblock %} </title>
-
-    <body>
-        <form action="{{ url_for('login') }}" method="post" name="login_user_form">
-            <p><label for="email">Email</label> <input id="email" name="email" type="text" value=""></p>
-            <p><label for="password">Password</label> <input id="password" name="password" type="password" value=""></p>
-            <p><label for="remember">Remember Me</label> <input id="remember" name="remember" type="checkbox" value="y"></p>
-            <p><input id="next" name="next" type="hidden" value="/"></p>
-            <p><input id="submit" name="submit" type="submit" value="Login"></p>
-            {{ form.csrf_token }}
-        </form>
-    </body>
+    {% block content %}
+        <div id="container">
+            <form action="{{ url_for('login') }}" method="post" name="login_user_form">
+                {{ login_user_form.hidden_tag() }}
+                {{ render_field_with_errors(login_user_form.email) }}
+                {{ render_field_with_errors(login_user_form.password) }}
+                {{ render_field_with_errors(login_user_form.remember) }}
+                {{ render_field(login_user_form.next) }}
+                {{ render_field(login_user_form.submit) }}
+            </form>
+        </div>
+    {% endblock %}
 </html>
