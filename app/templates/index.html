@@ -3,8 +3,11 @@
 <html>
     <title>{% block title %} Dashboard {% endblock %}</title>
     {% block content %}
-       <div id="container" style="padding:10pt">
-           <a href="{{url_for('display')}}" id="choice">Investor Map</a>
+       <div id="container" style="padding:20pt">
+           <div id="menu">
+               <a href="{{url_for('display')}}" id="btn">Investor Map</a>
+               <a href="{{url_for('display_users')}}" id="btn">Manage Users</a>
+            </div>
         </div>
     {% endblock %}
 </html>

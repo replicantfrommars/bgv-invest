@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+{% block title %} Investor Map {% endblock %}
+{% block content %}
+    <body>
+       <div id="content-box"><div id="graph-container"></div></div>
+    </body>
+    <!-- SIGMA IMPORTS -->
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/sigma.core.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/conrad.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/utils/sigma.utils.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/utils/sigma.polyfills.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/sigma.settings.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/classes/sigma.classes.dispatcher.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/classes/sigma.classes.configurable.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/classes/sigma.classes.graph.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/classes/sigma.classes.camera.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/classes/sigma.classes.quad.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/captors/sigma.captors.mouse.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/captors/sigma.captors.touch.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/sigma.renderers.canvas.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/sigma.renderers.webgl.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/sigma.renderers.svg.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/sigma.renderers.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/webgl/sigma.webgl.nodes.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/webgl/sigma.webgl.nodes.fast.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/webgl/sigma.webgl.edges.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/webgl/sigma.webgl.edges.fast.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/webgl/sigma.webgl.edges.arrow.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.labels.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.hovers.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.nodes.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edges.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edges.curve.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edges.arrow.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edgehovers.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edgehovers.curve.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/canvas/sigma.canvas.extremities.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.utils.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.nodes.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.edges.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.edges.curve.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.edges.curvedArrow.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.labels.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/renderers/svg/sigma.svg.hovers.def.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/middlewares/sigma.middlewares.rescale.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/middlewares/sigma.middlewares.copy.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/misc/sigma.misc.animation.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/misc/sigma.misc.bindEvents.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/misc/sigma.misc.bindDOMEvents.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/src/misc/sigma.misc.drawHovers.js')}}></script>
+    <!-- SIGMA CYPHER -->
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.parsers.json/sigma.parsers.json.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.parsers.cypher/sigma.parsers.cypher.js')}}></script>
+    <!-- DRAGGABLE -->
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js')}}></script>
+    <!-- ACTIVE STATE -->
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.plugins.activeState/sigma.plugins.activeState.js')}}></script>
+    <!-- AUTOCURVE -->
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.renderers.linkurious/canvas/sigma.canvas.edges.autoCurve.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.renderers.halo/settings.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.renderers.halo/sigma.renderers.halo.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.plugins.select/sigma.plugins.select.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.helpers.graph/sigma.helpers.graph.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.plugins.keyboard/sigma.plugins.keyboard.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.plugins.lasso/sigma.plugins.lasso.js')}}></script>
+    <!-- force layout -->
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.layouts.forceAtlas2/worker.js')}}></script>
+    <script src={{ url_for('static', filename='plugins/linkurious.js/plugins/sigma.layouts.forceAtlas2/supervisor.js')}}></script>
+    <script script type="application/javascript">
+        //set renderer to canvas - WebGL not supported
+        sigma.renderers.def = sigma.renderers.canvas;
+
+        //graph
+        var g;
+        
+        /* sigma */
+        var s = new sigma({
+          graph: g,
+          container: 'graph-container',
+          settings: {
+            edgeLabelThreshold: 5,
+            minEdgeSize: 4,
+            enableEdgeHovering: false,
+            nodeActiveBorderSize: 2,
+            nodeActiveOuterBorderSize: 3,
+            defaultNodeActiveBorderColor: '#fff',
+            defaultNodeActiveOuterBorderColor: 'rgb(236, 81, 72)',
+            nodeHaloColor: 'rgba(236, 81, 72, 0.2)',
+            nodeHaloSize: 50
+          }
+        });
+
+        /* cypher neo4j */
+        sigma.neo4j.cypher(
+            { url: 'http://localhost:7474', user: 'neo4j', password: 'PoIsNot8080' },
+            'MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n,r,m LIMIT 100',
+            s,
+            function() { s.refresh(); },
+            { container: 'graph-container' }
+        );
+      
+      /*force layout*/
+      var fa = s.startForceAtlas2(
+      {
+        worker: true,
+        outboundAttractionDistribution: true,
+        strongGravityMode: true
+      });
+
+      //active state
+      var activeState = sigma.plugins.activeState(s);
+      //keyboard
+      var keyboard = sigma.plugins.keyboard(s, s.renderers[0]);
+
+      /* select */
+      var select = sigma.plugins.select(s, activeState);
+      select.bindKeyboard(keyboard);
+
+      /* drag */
+      var dragListener = sigma.plugins.dragNodes(s, s.renderers[0], activeState);
+
+      /* lasso plugin */
+      var lasso = new sigma.plugins.lasso(s, s.renderers[0], {
+        'strokeStyle': 'rgb(236, 81, 72)',
+        'lineWidth': 5,
+        'fillWhileDrawing': true,
+        'fillStyle': 'rgba(236, 81, 72, 0.2)',
+        'cursor': 'crosshair'
+      });
+
+      select.bindLasso(lasso);
+
+      // halo on active nodes:
+      function renderHalo() {
+        s.renderers[0].halo({
+          nodes: activeState.nodes()
+        });
+      }
+
+      s.renderers[0].bind('render', function(e) {
+        renderHalo();
+      });
+
+
+      //keys to activate lasso
+      //shift+l
+      keyboard.bind('16+76', function() {
+          if (lasso.isActive) {
+            lasso.deactivate();
+          } else {
+            lasso.activate();
+          }
+      });
+
+
+      // selectedNodes event
+      lasso.bind('selectedNodes', function (event) {
+        setTimeout(function() {
+          lasso.deactivate();
+          s.refresh({ skipIdexation: true });
+        }, 0);
+      });
+   
+    </script>
+{% endblock %}

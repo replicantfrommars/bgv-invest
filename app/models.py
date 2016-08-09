@@ -1,7 +1,11 @@
 from __init__ import app
+### dependencies for flask security ###
 from flask_sqlalchemy import SQLAlchemy 
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 from flask_security.forms import LoginForm
+### dependencies for neo4j ###
+import os
+from py2neo import ServiceRoot
 
 #db setup
 db = SQLAlchemy(app)
@@ -36,4 +40,7 @@ def create_user():
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
-#customize login form
+### neo4j ###
+#connection for graphenedb
+graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
+graph = ServiceRoot(graphenedb_url).graph
