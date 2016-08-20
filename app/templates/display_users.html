@@ -1,5 +1,43 @@
 {% extends "layout.html"  %}
 <html>
     <title> {% block title %}Manage Users{%endblock%} </title>
-    
+    <body>
+        {% block content %}
+        <div id="content-box">
+            <div id="user_display">
+                <div class="header">Registered Users</div>
+                <table style="width:90%; margin-left:5%; margin-top:10px;">
+                    <form action="{{ url_for('display_users') }}" method="post" name="delete_form">
+                        {% for email in users %}
+                        <tr>
+                            <td class="displ">{{ email }}</td>
+                            <td class="check_box"><input style="margin-left:10%" type="checkbox" name="delete" value="{{email}}"></input></td>
+                        </tr>
+                        {% endfor %}
+                        <tr><td></td><td><input style="position:absolute; bottom:2%; right:5%" type="submit" value="Delete"></input></td></tr>
+                    </form>
+                </table>
+            </div>
+            <div id="user_display" style="left:31%">
+                <div class="header">Create User</div>
+                <table style="width:95%;margin-left:5%; margin-top:10px;">
+                    <form action="{{ url_for('display_users') }}" method="post" name="create_form">
+                        <tr>
+                            <td class="displ" style="text-align:left; width:25%">Email:</td>
+                            <td style="width:75%"> <input style="height:100%;" type="text" name="email"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="displ" style="text-align:left; width:25%">Password:</td>
+                            <td  style="width:75%"> <input style="height:100%;" type="text" name="password"></input></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input style="margin-top:20px; margin-left:50%;" type="submit" value="Submit"></input>
+                        </td></tr>
+                    </form>
+                </table>
+            </div>
+        </div>
+        {%endblock%}
+    </body>
 </html>

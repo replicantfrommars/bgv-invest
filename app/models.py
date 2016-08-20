@@ -5,12 +5,12 @@ from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMix
 from flask_security.forms import LoginForm
 ### dependencies for neo4j ###
 import os
-from py2neo import ServiceRoot
+from py2neo import ServiceRoot, Graph, authenticate
 
 #db setup
 db = SQLAlchemy(app)
 
-#flask security User and Role models
+###flask security User and Role models###
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
@@ -42,5 +42,7 @@ security = Security(app, user_datastore)
 
 ### neo4j ###
 #connection for graphenedb
-graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
-graph = ServiceRoot(graphenedb_url).graph
+# set up authentication parameters
+authenticate("localhost:7474", "neo4j", "PoIsNot8080")
+graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/db/data")
+graph = Graph(graphenedb_url)

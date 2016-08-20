@@ -1,12 +1,16 @@
+<!-- Made by Yevgen Kanalosh for BGV. Uses linkurious.js (under GNU General Public License v.3) -->
 <html>
     <head>
         <title>{% block title %}{% endblock %}</title>
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
         
     </head>
+    <body>
     <div id="hdr">BGV 
         {% if main_btn %}<a id="main_btn" href="{{url_for('home')}}">Main</a>{% endif %}
         {% if current_user.is_authenticated %}<a id="logout" href="{{url_for('logout')}}">Logout</a>{% endif %}
     </div>
     <div id="content">{% block content %}{% endblock %}</div>
+    <div style="margin-top:5px; font-size:8px; padding: 5px; width:98%; text-align:right"> Made by Yevgen Kanalosh for BGV. Uses linkurious.js (under GNU General Public License v.3). </div>
+    </body>
 </html>
