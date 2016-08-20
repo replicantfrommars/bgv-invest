@@ -4,7 +4,7 @@ import os
 
 # Create app
 app = Flask(__name__)
-app.config['DEBUG'] = True
+app.config['DEBUG'] = False
 app.config['WTF_CSRF_ENABLED']=False
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
