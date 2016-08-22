@@ -75,7 +75,7 @@ def post():
             n2 = n2.split("end_comp")
             n2, n3 = n2[0], n2[1]
             try:
-                queries=["MERGE "+ n1, "MERGE "+ n3, "Match" + n1+","+n3+" Create (cat)-[rel1:has]->"+n2+"<-[rel2:has]-(city)"]
+                queries=["MERGE "+ n1, "MERGE "+ n3, "Match" + n1+","+n3+" MERGE (cat)-[rel1:has]->"+n2+"<-[rel2:has]-(city)"]
                 for q in queries:
                     graph.cypher.execute(q)
             except SyntaxError as e:
