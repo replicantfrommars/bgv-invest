@@ -59,7 +59,7 @@ def display():
 
 #allow upload to database
 @app.route('/post', methods=['POST'])
-#@auth_token_required
+@auth_token_required
 def post():
     #status constant
     STATUS_POST="Success"
