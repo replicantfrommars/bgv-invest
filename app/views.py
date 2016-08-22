@@ -54,7 +54,7 @@ def display_users():
 @login_required
 def display():
     req_statement = '{"statements":[{"statement":"MATCH path = (n)-[r]->(m) RETURN path", "resultDataContents":["graph"]}]}'
-    r = requests.post(graphenedb_url+'transaction/commit', data=req_statement)
+    r = requests.post(graphenedb_url+'/db/data/transaction/commit', data=req_statement)
     return render_template('display.html', main_btn=True, json_p=r.content)
 
 #allow upload to database

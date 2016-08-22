@@ -41,7 +41,7 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
 ### neo4j ###
-#connection for graphenedb
+# connection for graphenedb
 # set up authentication parameters
 authenticate("localhost:7474", "neo4j", "PoIsNot8080")
 graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/db/data")
