@@ -81,10 +81,14 @@
     <script script type="application/javascript">
         //set renderer to canvas - WebGL not supported
         sigma.renderers.def = sigma.renderers.canvas;
+        
+        var g; 
+        //server response
+        {% autoescape false%}
+        var response = {{json_p}};
+        {% endautoescape %}
 
         //graph
-        var g;
-        
         /* sigma */
         var s = new sigma({
           graph: g,
@@ -103,7 +107,7 @@
         });
 
         //graph customization
-        function customizeG(s){
+        function customizeG(s){          
           s.graph.nodes().forEach(function(n, i, a) {
             n.x = Math.cos(Math.PI * 10 * i / a.length)*10;
             n.y = Math.sin(Math.PI * 10 * i / a.length)*10;
@@ -118,11 +122,11 @@
             else{
               n.size = 15.0
             }
-           });
-           s.graph.edges().forEach(function (e){
+          });
+          s.graph.edges().forEach(function (e){
              e.style='curve';
-           });
-           var fa = sigma.layouts.configForceLink(s, {
+          });
+          var fa = sigma.layouts.configForceLink(s, {
                 linLogMode: false, 
                 adjustSizes: true,
                 worker: true,
@@ -137,23 +141,19 @@
           sigma.layouts.startForceLink();
           var cam = s.camera;
           sigma.misc.animation.camera(cam, { 
-              ratio: 1.9
+              ratio: 1.1
           });
           s.refresh();
-        }
-         
-        //load neo4j data and customize sigma
-        sigma.neo4j.cypher(
-            { url: 'http://localhost:7474', user: 'neo4j', password: 'PoIsNot8080' },
-            'MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n,r,m LIMIT 1000',
-            s,
-            customizeG,
-            function() {     
-              s.refresh();   
-            },
-            { container: 'graph-container' }
-        );
+     }
        
+     function readAndCustomize() {
+              graph = sigma.neo4j.cypher_parse(response);
+              s.graph.read(graph);
+              customizeG(s);      
+              s.refresh();   
+      } 
+
+      readAndCustomize();
 
       //active state
       var activeState = sigma.plugins.activeState(s);

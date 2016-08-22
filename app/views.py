@@ -4,6 +4,8 @@ from flask import render_template, request
 from flask_security import auth_token_required
 from flask_sqlalchemy import SQLAlchemy
 from __init__ import app
+import requests
+import json
 from models import *
 
 ### views ###
@@ -22,8 +24,8 @@ def login():
 @app.route('/users', methods=['GET', 'POST'])
 @login_required
 def display_users():
-    email=""
-    password=""
+    #vars 
+    email, password="", ""
     #if post
     if request.method == 'POST':
         for i in request.form:
@@ -39,43 +41,45 @@ def display_users():
     if email and password:
         user_datastore.create_user(email=email, password=password)
         db.session.commit()
+    #retrieve user data for rendering
     user_collection = User.query.all();
     users=set();
     for i in user_collection:
         users.add(i.email)
+    #return
     return render_template('display_users.html', main_btn=True, users=users)
 
 #display investor map
 @app.route('/map')
 @login_required
 def display():
-    return render_template('display.html', main_btn=True)
+    req_statement = '{"statements":[{"statement":"MATCH path = (n)-[r]->(m) RETURN path", "resultDataContents":["graph"]}]}'
+    r = requests.post(graphenedb_url+'transaction/commit', data=req_statement)
+    return render_template('display.html', main_btn=True, json_p=r.content)
 
 #allow upload to database
 @app.route('/post', methods=['POST'])
 @auth_token_required
 def post():
+    #status constant
     STATUS_POST="Success"
     try:
         #retrieve and format payload
         payload = request.get_json()['Upload']
-        print payload
         payload = payload.replace('[u"row', '').replace('"]', '')
         node_collection = payload.split('", u"row')
         for row in node_collection:
+            #format rows and prepare queries 
             row=row.split("nn_comp")
             n1, n2=row[0], row[1]
             n2 = n2.split("end_comp")
             n2, n3 = n2[0], n2[1]
-            #print row
-            query="MERGE "
             try:
                 queries=["MERGE "+ n1, "MERGE "+ n3, "Match" + n1+","+n3+" Create (cat)-[rel1:has]->"+n2+"<-[rel2:has]-(city)"]
-                print queries
                 for q in queries:
                     graph.cypher.execute(q)
             except SyntaxError as e:
-                STATUS_POST="There was an error processing the upload: "+e.message
+                STATUS_POST="An error occurred while processing the upload: "+e.message
                 print e
         return STATUS_POST
     except Exception as e:
