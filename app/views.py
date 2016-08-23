@@ -1,7 +1,7 @@
 ### imports
 from functools import wraps
 from flask import render_template, request
-from flask_security import auth_token_required
+from flask_security import auth_token_required, roles_required
 from flask_sqlalchemy import SQLAlchemy
 from __init__ import app
 import requests
@@ -22,14 +22,13 @@ def login():
 
 #users
 @app.route('/users', methods=['GET', 'POST'])
-@login_required
+@roles_required('admin')
 def display_users():
     #vars 
     email, password="", ""
     #if post
     if request.method == 'POST':
         for i in request.form:
-            print i+request.form[i]
             if i == 'delete':
                 usr=User.query.filter_by(email=request.form[i]).first()
                 user_datastore.delete_user(usr)

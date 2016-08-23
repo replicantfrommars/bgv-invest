@@ -33,7 +33,9 @@ class User(db.Model, UserMixin):
 @app.before_first_request
 def create_user():
     db.create_all()
-    user_datastore.create_user(email='Yevgen', password='password')
+    user_datastore.create_role(name='admin')
+    user_datastore.create_user(email='Admin', password='PoIsNot8080', roles=['admin']) 
+    user_datastore.create_user(email='yash@benhamouglobalventures.com', password='bgv_psd09235', roles=['admin']) 
     db.session.commit()
 
 # Setup Flask-Security
