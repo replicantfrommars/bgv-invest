@@ -5,7 +5,7 @@
       <div id="graph-container">
         <div id="controls">
           <div class="item" style="border-top-left-radius: 10px; border-bottom: 1px solid #204060">
-            <kbd>+</kbd> and <kbd>-</kbd> or Scroll to Zoom
+            <kbd>Scroll</kbd> to Zoom
           </div>
           <div class="item" style="border-bottom-right-radius: 10px;">
             <kbd>Shift</kbd> + <kbd style="margin-right:5px">L</kbd> Lasso
@@ -199,23 +199,6 @@
           }
       });
 
-      //zoom +
-      keyboard.bind('43', function() {
-          var cam = s.camera;
-          sigma.misc.animation.camera(cam, { 
-              ratio: 0.5
-          });
-          s.refresh();
-      });
-
-       //zoom -
-      keyboard.bind('45', function() {
-          var cam = s.camera;
-          sigma.misc.animation.camera(cam, { 
-              ratio: 1.1
-          });
-          s.refresh();
-      });
 
       // selectedNodes event
       lasso.bind('selectedNodes', function (event) {
