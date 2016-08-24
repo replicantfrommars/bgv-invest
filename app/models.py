@@ -35,8 +35,6 @@ def create_user():
     db.create_all()
     user_datastore.find_or_create_role(name='admin', description='Administrator')
     user_datastore.find_or_create_role(name='nonadmin', description='End user')
-    user_datastore.find_or_create_user(email='Admin', password='PoIsNot8080', roles=['admin']) 
-    user_datastore.find_or_create_user(email='yash@benhamouglobalventures.com', password='bgv_psd09235', roles=['admin']) 
     db.session.commit()
 
 # Setup Flask-Security
