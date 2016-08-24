@@ -15,11 +15,6 @@ from models import *
 def home():
     return render_template('index.html')
 
-#login
-@app.route('/login')
-def login():
-    return render_template('security/login.html')
-
 #users
 @app.route('/users', methods=['GET', 'POST'])
 @roles_required('admin')
