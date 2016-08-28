@@ -54,7 +54,7 @@ def display_users():
 def display():
     req_statement = '{"statements":[{"statement":"MATCH path = (n)-[r]->(m) RETURN path", "resultDataContents":["graph"]}]}'
     r = requests.post(graphenedb_url+'/db/data/transaction/commit', data=req_statement)
-    return render_template('display.html', main_btn=True, json_p=r.content)
+    return render_template('display.html', main_btn=True, json_p=r.content.decode().encode('utf-8'))
 
 #allow upload to database
 @app.route('/post', methods=['POST'])
